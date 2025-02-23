@@ -1,0 +1,46 @@
+{
+  "products": [
+    {
+      "materialId": "379457HY",
+      "name": "ATH50",
+      "price": 10.23,
+      "currency": "EUR",
+      "category": "PerformanceMaterials"
+    },
+    {
+      "materialId": "3587KH987",
+      "name": "MX50",
+      "price": 5.55,
+      "currency": "EUR",
+      "category": "Coatings"
+    },
+    {
+      "materialId": "702707UX",
+      "name": "WH1000",
+      "price": 3.44,
+      "currency": "USD",
+      "category": "Plastics"
+    },
+    {
+      "materialId": "98719075DS",
+      "name": "B199X",
+      "price": 99.18,
+      "currency": "INR",
+      "category": "Plastics"
+    },
+    {
+      "materialId": "13959GG",
+      "name": "Flexa 100",
+      "price": 334,
+      "currency": "JPY",
+      "category": "Plastics"
+    },
+    {
+      "materialId": "TT9898324",
+      "name": "DM99",
+      "price": 4.50,
+      "currency": "EUR",
+      "category": "Coatings"
+    }
+  ]
+}
