@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  product-service:
+    build: .
+    image: product-service:latest
+    ports:
+      - "8080:8080"
+    environment:
+      # Set the datasource URL to point to the "mysql" service defined below.
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/productdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=test
+      - SPRING_PROFILES_ACTIVE=dev # -Dspring-boot.run.profiles=dev or prod or empty
+    depends_on:
+      mysql:
+        condition: service_healthy # Wait for mysql to be healthy
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: productdb
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      TZ: UTC  # MySQL container timezone
+    command:
+      - --default-time-zone=UTC
+      - --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "test", "-ptest"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  mysql_data:
