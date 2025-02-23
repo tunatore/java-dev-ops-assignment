@@ -1,0 +1,4 @@
+http:
+  server:
+    reactive:
+      request-timeout: 10s

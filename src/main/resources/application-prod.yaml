@@ -1,0 +1,10 @@
+resilience4j:
+  circuitbreaker:
+    instances:
+      productService:
+        register-health-indicator: true
+        failure-rate-threshold: 60 # 60%
+        sliding-window-type: TIME_BASED
+        sliding-window-size: 20 # 20 seconds
+        minimum-number-of-calls: 100 # 100 calls
+        wait-duration-in-open-state: 10s # 10 seconds
