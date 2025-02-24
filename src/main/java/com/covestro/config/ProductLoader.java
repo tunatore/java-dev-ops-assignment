@@ -147,15 +147,20 @@ public class ProductLoader implements CommandLineRunner {
         try {
             Set<Currency> currencies = new HashSet<>();
             Set<Category> categories = new HashSet<>();
+            Set<String> categoryNames = new HashSet<>();
             
             for (JsonProduct product : products) {
                 Currency currency = new Currency();
                 currency.setCode(product.getCurrency().getCode());
                 currencies.add(currency);
                 
-                Category category = new Category();
-                category.setName(product.getCategory().getName());
-                categories.add(category);
+                String categoryName = product.getCategory().getName();
+                if (!categoryNames.contains(categoryName)) {
+                    Category category = new Category();
+                    category.setName(categoryName);
+                    categories.add(category);
+                    categoryNames.add(categoryName);
+                }
             }
             
             currencyRepository.saveAll(currencies);
