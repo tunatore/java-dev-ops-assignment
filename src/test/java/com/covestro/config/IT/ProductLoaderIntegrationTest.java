@@ -1,8 +1,11 @@
 package com.covestro.config.IT;
 
 import com.covestro.config.ProductLoader;
+import com.covestro.repository.CategoryRepository;
+import com.covestro.repository.CurrencyRepository;
 import com.covestro.repository.ProductRepository;
 import com.covestro.repository.entity.Product;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +31,12 @@ class ProductLoaderIntegrationTest {
     @Autowired
     private ProductRepository productRepository;
     
+    @Autowired
+    private CurrencyRepository currencyRepository;
+    
+    @Autowired
+    private CategoryRepository categoryRepository;
+    
     @Container
     private static final MySQLContainer<?> MY_SQL_CONTAINER = new MySQLContainer<>("mysql:8.0")
             .withDatabaseName("testdb")
@@ -44,9 +53,15 @@ class ProductLoaderIntegrationTest {
         registry.add("spring.datasource.password", MY_SQL_CONTAINER::getPassword);
     }
     
+    @BeforeEach
+    void setUp() {
+        productRepository.deleteAll();
+        currencyRepository.deleteAll();
+        categoryRepository.deleteAll();
+    }
+    
     @Test
     void testProductLoaderIntegration() {
-        productRepository.deleteAll();
         assertEquals(0, productRepository.count(), "Database should be empty before test");
         
         productLoader.run();
@@ -61,7 +76,7 @@ class ProductLoaderIntegrationTest {
     
     @Test
     void testProductLoaderIntegrationCantRunTwice() {
-        productRepository.deleteAll();
+        assertEquals(0, productRepository.count(), "Database should be empty before test");
         productLoader.run();
         
         List<Product> loadedProducts = productRepository.findAll();
