@@ -34,7 +34,6 @@ public class JsonProduct {
         private String name;
     }
     
-    
     private static class CurrencyDeserializer extends JsonDeserializer<Currency> {
         @Override
         public Currency deserialize(JsonParser p, DeserializationContext ctx) throws IOException {

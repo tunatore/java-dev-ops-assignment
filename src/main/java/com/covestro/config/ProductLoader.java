@@ -27,6 +27,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * {@code ProductLoader} is a Spring service that loads product data from a JSON file into the database.
+ * It implements {@link CommandLineRunner} to execute the data loading process on application startup.
+ */
 @Service
 @Configuration
 @Slf4j
@@ -37,6 +41,14 @@ public class ProductLoader implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final ObjectMapper objectMapper;
     
+    /**
+     * Constructs a {@code ProductLoader} with the necessary repositories and object mapper.
+     *
+     * @param productRepository    The repository for product entities.
+     * @param currencyRepository   The repository for currency entities.
+     * @param categoryRepository   The repository for category entities.
+     * @param objectMapper         The object mapper for JSON processing.
+     */
     @Autowired
     public ProductLoader(ProductRepository productRepository,
                          CurrencyRepository currencyRepository,
@@ -48,6 +60,11 @@ public class ProductLoader implements CommandLineRunner {
         this.objectMapper = objectMapper;
     }
     
+    /**
+     * Loads product data from the JSON file into the database.
+     *
+     * @throws IOException If an I/O error occurs while reading the JSON file.
+     */
     public void loadProductsFromJson() throws IOException {
         ClassPathResource resource = new ClassPathResource(PRODUCTS_JSON_PATH);
         try (InputStream inputStream = resource.getInputStream()) {
@@ -63,6 +80,14 @@ public class ProductLoader implements CommandLineRunner {
         }
     }
     
+    /**
+     * Saves the products from the JSON list into the database.
+     *
+     * @param jsonProductList The list of products from the JSON file.
+     * @param currencyMap     A map of currency codes to currency entities.
+     * @param categoryMap     A map of category names to category entities.
+     * @return A list of saved product entities.
+     */
     private List<Product> saveProducts(JsonProductList jsonProductList,
                                        Map<String, Currency> currencyMap,
                                        Map<String, Category> categoryMap) {
@@ -92,6 +117,11 @@ public class ProductLoader implements CommandLineRunner {
         return savedProducts;
     }
     
+    /**
+     * Logs the counts of materials per category and lists all saved products.
+     *
+     * @param savedProducts The list of saved product entities.
+     */
     private void logCategoryCounts(List<Product> savedProducts) {
         Map<String, Long> categoryCounts = savedProducts.stream()
                 .collect(Collectors.groupingBy(product -> product.getCategory().getName(),
@@ -104,6 +134,13 @@ public class ProductLoader implements CommandLineRunner {
         savedProducts.forEach(product -> log.info("{}", product));
     }
     
+    /**
+     * Extracts and saves currencies and categories from the product list.
+     *
+     * @param products      The list of products from the JSON file.
+     * @param currencyMap   A map to store currency codes and entities.
+     * @param categoryMap   A map to store category names and entities.
+     */
     private void extractAndSaveCurrenciesAndCategories(List<JsonProduct> products,
                                                        Map<String, Currency> currencyMap,
                                                        Map<String, Category> categoryMap) {
@@ -132,10 +169,20 @@ public class ProductLoader implements CommandLineRunner {
         }
     }
     
+    /**
+     * Checks if the database is empty.
+     *
+     * @return {@code true} if the database is empty, {@code false} otherwise.
+     */
     private boolean isDatabaseEmpty() {
         return productRepository.count() == 0;
     }
     
+    /**
+     * Runs the product loading process on application startup if the database is empty.
+     *
+     * @param args The command line arguments.
+     */
     @Override
     public void run(String... args) {
         if (isDatabaseEmpty()) {
