@@ -10,6 +10,10 @@ import lombok.Setter;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Represents a product from a JSON source.
+ * This class is used for deserializing JSON data into a Java object.
+ */
 @Getter
 @Setter
 public class JsonProduct {
