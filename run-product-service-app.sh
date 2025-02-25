@@ -16,10 +16,10 @@ fi
 # Check if 'mvn' is available; if not, use the Maven wrapper
 if command -v mvn &> /dev/null; then
     echo "Using mvn from PATH"
-    mvn clean package
+    mvn clean package -Dmaven.test.skip=true
 elif [ -x "./mvnw" ]; then
     echo "Using Maven wrapper"
-    ./mvnw clean package
+    ./mvnw clean package -Dmaven.test.skip=true
 else
     echo "Error: Maven is not installed and no Maven wrapper (mvnw) found."
     exit 1

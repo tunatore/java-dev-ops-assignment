@@ -41,7 +41,8 @@ class ProductLoaderIntegrationTest {
     private static final MySQLContainer<?> MY_SQL_CONTAINER = new MySQLContainer<>("mysql:8.0")
             .withDatabaseName("testdb")
             .withUsername("test")
-            .withPassword("testtest");
+            .withPassword("testtest")
+            .withReuse(true);
     
     @DynamicPropertySource
     private static void setDatasourceProperties(DynamicPropertyRegistry registry) {

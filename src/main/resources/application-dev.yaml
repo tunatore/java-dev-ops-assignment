@@ -1,7 +1,7 @@
 # Add dev-only configurations - DEBUG to see more logs when calling upstream services
 logging:
   level:
-    root: INFO
+    root: DEBUG
 
 spring:
   datasource:
