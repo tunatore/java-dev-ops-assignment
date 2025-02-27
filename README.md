@@ -121,4 +121,4 @@ Due to time constraints on this assignment, some technical debt may have been in
 * **Environment-Specific Configuration:** Update configurations in the `application.yaml` files to accurately reflect each environment.
 * **Full Non-Blocking Database Access:** Utilize Spring Data R2DBC to fully support non-blocking database access.
 * **Authentication and Authorization:** Introduce authentication and authorization frameworks, such as JWT.
-
+* **Adding custom metrics using Micrometer:** The application could include additional custom metrics using Micrometer for business-critical logic, helping with alerting, dashboards, and more.
